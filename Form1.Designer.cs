@@ -128,7 +128,6 @@ namespace WindowsFormsApp1
             this.label3.Size = new System.Drawing.Size(136, 13);
             this.label3.TabIndex = 9;
             this.label3.Text = "Nome do Usuario da Digital";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // textBox3
             // 

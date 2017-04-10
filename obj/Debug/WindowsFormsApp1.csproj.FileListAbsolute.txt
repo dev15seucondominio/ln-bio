@@ -7,3 +7,12 @@ c:\users\sc\documents\visual studio 2017\Projects\WindowsFormsApp1\WindowsFormsA
 c:\users\sc\documents\visual studio 2017\Projects\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
 c:\users\sc\documents\visual studio 2017\Projects\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
 C:\Users\SC\Documents\Visual Studio 2017\Projects\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\Users\SC\ln-bio\bin\Debug\WindowsFormsApp1.exe.config
+C:\Users\SC\ln-bio\bin\Debug\WindowsFormsApp1.exe
+C:\Users\SC\ln-bio\bin\Debug\WindowsFormsApp1.pdb
+C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.csprojResolveAssemblyReference.cache
+C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.Cache
+C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.exe
+C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.pdb
