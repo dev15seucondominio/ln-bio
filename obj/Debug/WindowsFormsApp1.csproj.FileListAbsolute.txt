@@ -1,18 +1,16 @@
-c:\users\sc\documents\visual studio 2017\Projects\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
-c:\users\sc\documents\visual studio 2017\Projects\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
-c:\users\sc\documents\visual studio 2017\Projects\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
-c:\users\sc\documents\visual studio 2017\Projects\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csprojResolveAssemblyReference.cache
-c:\users\sc\documents\visual studio 2017\Projects\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
-c:\users\sc\documents\visual studio 2017\Projects\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.Cache
-c:\users\sc\documents\visual studio 2017\Projects\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
-c:\users\sc\documents\visual studio 2017\Projects\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
 C:\Users\SC\Documents\Visual Studio 2017\Projects\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\Users\SC\Documents\Visual Studio 2017\Projects\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\Users\SC\Documents\Visual Studio 2017\Projects\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.Cache
 C:\Users\SC\ln-bio\bin\Debug\WindowsFormsApp1.exe.config
+C:\Users\SC\ln-bio\bin\Debug\WindowsFormsApp1.exe.manifest
+C:\Users\SC\ln-bio\bin\Debug\WindowsFormsApp1.application
 C:\Users\SC\ln-bio\bin\Debug\WindowsFormsApp1.exe
 C:\Users\SC\ln-bio\bin\Debug\WindowsFormsApp1.pdb
 C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.csprojResolveAssemblyReference.cache
-C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.MessageChannel.resources
 C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
 C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.Cache
+C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.exe.manifest
+C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.application
 C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.exe
 C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.pdb

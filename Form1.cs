@@ -12,8 +12,19 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Runtime.Serialization;
+using System.Dynamic;
+using System.Web.Script.Serialization;
+
 namespace WindowsFormsApp1
 {
+    public class MessageChannel
+    {
+        public string usuario { get; set; }
+        public string cliente { get; set; }
+        public string equipamento { get; set; }
+        public string digital { get; set; }
+    }
+
     public partial class Form1 : Form
     {
         string path = "finger.bmp";
@@ -60,7 +71,7 @@ namespace WindowsFormsApp1
                     Image bitmap2 = Image.FromStream(ms);
 
                     pictureBox1.Image = bitmap2;
-
+                
                     ms.Close();
                     Win32.AvzProcess(Win32.gpImage, Win32.gpFeatureA, Win32.gpBin, 1, 1, 94);
 
@@ -87,7 +98,7 @@ namespace WindowsFormsApp1
                     pictureBox1.Image = bitmap2;
 
                     ms.Close();
-
+                
                     Win32.AvzProcess(Win32.gpImage, Win32.gpFeatureB, Win32.gpBin, 1, 1, 94);
                 }
 
@@ -97,16 +108,12 @@ namespace WindowsFormsApp1
                 if (Ret == 0)
                 {
                     MessageBox.Show("Sucesso na Captura");
+                    Ret = Win32.AvzPackFeature(Win32.gpFeatureA, Win32.gpFeatureB, Win32.gpFeatureBuf1);
                     using (BinaryWriter binWriter = new BinaryWriter(File.Open("MyFile.anv", FileMode.Create)))
                     {
-                        byte[] gpFeatureBuf1 = new byte[338];
-                        byte[] gpFeatureA = new byte[169];
-                        byte[] gpFeatureB = new byte[169];
-                        gpFeatureA = SliceMe(Win32.gpFeatureA, 169);
-                        gpFeatureB = SliceMe(Win32.gpFeatureB, 169);
-                        gpFeatureBuf1 = Combine(gpFeatureA, gpFeatureB);
-                        binWriter.Write(gpFeatureBuf1);    
+                        binWriter.Write(Win32.gpFeatureBuf1, 0, Ret);
                     }
+                    
                 }
                 else
                 {
@@ -121,39 +128,6 @@ namespace WindowsFormsApp1
             }
 
             Win32.AvzCloseDevice(Convert.ToInt16(encode));
-        }
-
-        public void PrintByteArray(byte[] bytes)
-        {
-            var sb = new StringBuilder("new byte[] { ");
-            foreach (var b in bytes)
-            {
-                sb.Append(b + ", ");
-            }
-            sb.Append("}");
-            Console.WriteLine(sb.ToString());
-        }
-
-        public static byte[] UnsignedBytesFromSignedBytes(byte[] signed)
-        {
-            var unsigned = new byte[signed.Length];
-            Buffer.BlockCopy(signed, 0, unsigned, 0, signed.Length);
-            return unsigned;
-        }
-
-        static byte[] SliceMe(byte[] source, int length)
-        {
-            byte[] destfoo = new byte[length];
-            Array.Copy(source, 0, destfoo, 0, length);
-            return destfoo;
-        }
-
-        public static T[] Combine<T>(T[] first, T[] second)
-        {
-            T[] ret = new T[first.Length + second.Length];
-            Buffer.BlockCopy(first, 0, ret, 0, first.Length);
-            Buffer.BlockCopy(second, 0, ret, first.Length, second.Length);
-            return ret;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -175,7 +149,7 @@ namespace WindowsFormsApp1
             Win32.AvzCloseLED(Convert.ToInt16(encode));
             MessageBox.Show("ERROR - Desconectado");
         }
-
+        
         private WebRequest request;
         private Stream dataStream;
 
@@ -193,13 +167,6 @@ namespace WindowsFormsApp1
             }
         }
 
-        public void MyWebRequest(string url)
-        {
-            // Create a request using a URL that can receive a post.
-
-            request = WebRequest.Create(url);
-        }
-
         public byte[] FileToByteArray(string fileName)
         {
             byte[] buff = null;
@@ -212,30 +179,38 @@ namespace WindowsFormsApp1
             return buff;
         }
 
-        public void MyWebRequest(string url, string data)
-        {
+        public void MyWebRequest(string url, string data, string key)
+        {   
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
             request.Accept = "Accept=text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-            request.Headers["cliente"] = textBox1.Text;
-            request.Headers["equipamento"] = textBox2.Text;
-            request.Headers["usuario"] = textBox3.Text;
-            request.Headers["digital"] = data;
 
+            request.Headers["channel_key"] = key;
+            dynamic msg = new ExpandoObject();
+            
+            msg.digital = data.ToString();
+            msg.usuario = textBox3.Text;
+            msg.cliente = textBox1.Text;
+            msg.equipamento = textBox2.Text;
+            string mensagem = new JavaScriptSerializer().Serialize(msg);
+                
+            string channel = string.Format("portaria_equipamento_biometria_{0}_{1}_{2}", textBox1.Text, textBox2.Text, comboBox1.Text);
+            string postData = string.Format("channelName={0}&msg={1}", channel, mensagem);
+            Console.Write(url);
 
-            byte[] _byteVersion = Encoding.ASCII.GetBytes(string.Concat("equipamento=", data));
+            byte[] _byteVersion = Encoding.ASCII.GetBytes(postData);
 
             request.ContentLength = _byteVersion.Length;
 
             Stream stream = request.GetRequestStream();
             stream.Write(_byteVersion, 0, _byteVersion.Length);
             stream.Close();
-
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             using (StreamReader reader = new StreamReader(response.GetResponseStream()))
             {
+                Console.Write(response);
                 Console.WriteLine(reader.ReadToEnd());
                 Console.WriteLine(request);
                 Console.WriteLine(stream);
@@ -249,8 +224,8 @@ namespace WindowsFormsApp1
         }
 
 
-        public void MyWebRequest(string url, string method, string data)
-
+        public void MyWebRequest(string url, string method, string data, string key)
+            
         {
             request = WebRequest.Create(url);
 
@@ -272,6 +247,7 @@ namespace WindowsFormsApp1
 
             // Close the Stream object.
             dataStream.Close();
+
         }
 
         public string GetResponse()
@@ -298,11 +274,11 @@ namespace WindowsFormsApp1
             return responseFromServer;
         }
 
+
         private void button3_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Enviar Digital");
-
-            UInt16 Ret = 0;
+            
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "Feature files|*.anv";
             DialogResult result;
@@ -318,7 +294,26 @@ namespace WindowsFormsApp1
                 foreach (var u in bbyt) buffer += Convert.ToString(u, 16) + ",";
 
                 Console.Write(buffer);
-                MyWebRequest("http://seucondominio.ddns.net:3001/guaritas/buffer_digital", buffer);
+                string url;
+                string key;
+                switch (this.comboBox1.Text)
+                {
+                    case "development":
+                        url = this.textBox4.Text;
+                        key = this.textBox5.Text;
+                        MyWebRequest(url, buffer, key);
+                        break;
+                    case "staging":
+                        url = "http://channelio-staging.herokuapp.com/talk_in_channel";
+                        key = "1z2x3c4v5b6n7m";
+                        MyWebRequest(url, buffer, key);
+                        break;
+                    case "production":
+                        url = "http://channelio.herokuapp.com/talk_in_channel";
+                        key = "1z2x3c4v5b6n7m";
+                        MyWebRequest(url, buffer, key);
+                        break;
+                }
             }
         }
 
@@ -337,6 +332,50 @@ namespace WindowsFormsApp1
             }
 
             //if (iNum > 0) comboBox1.SelectedIndex = 0;
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_Click(object sender, EventArgs e)
+        {
+            switch (this.comboBox1.Text)
+            {
+                case "development":
+                    this.label6.Visible = true;
+                    this.textBox5.Visible = true;
+                    this.label4.Visible = true;
+                    this.textBox4.Visible = true;
+                    this.button1.Location = new System.Drawing.Point(25, 231);
+                    this.button2.Location = new System.Drawing.Point(25, 260);
+                    this.button3.Location = new System.Drawing.Point(25, 289);
+                    break;
+                case "staging":
+                    this.label6.Visible = false;
+                    this.textBox5.Visible = false;
+                    this.label4.Visible = false;
+                    this.textBox4.Visible = false;
+                    this.button1.Location = new System.Drawing.Point(25, 143);
+                    this.button2.Location = new System.Drawing.Point(25, 180);
+                    this.button3.Location = new System.Drawing.Point(26, 222);
+                    break;
+                case "production":
+                    this.label6.Visible = false;
+                    this.textBox5.Visible = false;
+                    this.label4.Visible = false;
+                    this.textBox4.Visible = false;
+                    this.button1.Location = new System.Drawing.Point(25, 143);
+                    this.button2.Location = new System.Drawing.Point(25, 180);
+                    this.button3.Location = new System.Drawing.Point(26, 222);
+                    break;
+            }
         }
     }
 }
