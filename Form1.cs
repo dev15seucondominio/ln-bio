@@ -71,7 +71,8 @@ namespace WindowsFormsApp1
                     Image bitmap2 = Image.FromStream(ms);
 
                     pictureBox1.Image = bitmap2;
-                
+                    
+                    Array.Copy(Win32.gpFeatureA, 0, Win32.gpFeatureA, 0, 169);
                     ms.Close();
                     Win32.AvzProcess(Win32.gpImage, Win32.gpFeatureA, Win32.gpBin, 1, 1, 94);
 
@@ -97,7 +98,7 @@ namespace WindowsFormsApp1
 
                     pictureBox1.Image = bitmap2;
 
-                    ms.Close();
+                    ms.Close(); 
                 
                     Win32.AvzProcess(Win32.gpImage, Win32.gpFeatureB, Win32.gpBin, 1, 1, 94);
                 }
@@ -108,10 +109,16 @@ namespace WindowsFormsApp1
                 if (Ret == 0)
                 {
                     MessageBox.Show("Sucesso na Captura");
-                    Ret = Win32.AvzPackFeature(Win32.gpFeatureA, Win32.gpFeatureB, Win32.gpFeatureBuf1);
                     using (BinaryWriter binWriter = new BinaryWriter(File.Open("MyFile.anv", FileMode.Create)))
                     {
                         binWriter.Write(Win32.gpFeatureBuf1, 0, Ret);
+                        byte[] gpFeatureBuf1 = new byte[338];
+                        byte[] gpFeatureA = new byte[169];
+                        byte[] gpFeatureB = new byte[169];
+                        gpFeatureA = SliceMe(Win32.gpFeatureA, 169);
+                        gpFeatureB = SliceMe(Win32.gpFeatureB, 169);
+                        gpFeatureBuf1 = Combine(gpFeatureA, gpFeatureB);
+                        binWriter.Write(gpFeatureBuf1); 
                     }
                     
                 }
@@ -128,6 +135,39 @@ namespace WindowsFormsApp1
             }
 
             Win32.AvzCloseDevice(Convert.ToInt16(encode));
+        }
+
+        public void PrintByteArray(byte[] bytes)
+        {
+            var sb = new StringBuilder("new byte[] { ");
+            foreach (var b in bytes)
+            {
+                sb.Append(b + ", ");
+            }
+            sb.Append("}");
+            Console.WriteLine(sb.ToString());
+        }
+ 
+        public static byte[] UnsignedBytesFromSignedBytes(byte[] signed)
+        {
+            var unsigned = new byte[signed.Length];
+            Buffer.BlockCopy(signed, 0, unsigned, 0, signed.Length);
+            return unsigned;
+        }
+ 
+        static byte[] SliceMe(byte[] source, int length)
+        {
+            byte[] destfoo = new byte[length];
+            Array.Copy(source, 0, destfoo, 0, length);
+            return destfoo;
+        }
+ 
+        public static T[] Combine<T>(T[] first, T[] second)
+        {
+            T[] ret = new T[first.Length + second.Length];
+            Buffer.BlockCopy(first, 0, ret, 0, first.Length);
+            Buffer.BlockCopy(second, 0, ret, first.Length, second.Length);
+            return ret;
         }
 
         private void button2_Click(object sender, EventArgs e)
