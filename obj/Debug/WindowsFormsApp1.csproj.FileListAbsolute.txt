@@ -14,3 +14,4 @@ C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.exe.manifest
 C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.application
 C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.exe
 C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.pdb
+C:\Users\SC\ln-bio\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache

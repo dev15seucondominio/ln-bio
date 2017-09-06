@@ -51,8 +51,6 @@ namespace WindowsFormsApp1
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -183,32 +181,13 @@ namespace WindowsFormsApp1
             this.label5.TabIndex = 1;
             this.label5.Text = "Ambiente";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(23, 180);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(67, 13);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "Channel Key";
-            this.label6.Click += new System.EventHandler(this.label4_Click);
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(26, 196);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(149, 20);
-            this.textBox5.TabIndex = 12;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(478, 379);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.textBox5);
             this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label3);
@@ -246,8 +225,6 @@ namespace WindowsFormsApp1
         private TextBox textBox4;
         private ComboBox comboBox1;
         private Label label5;
-        private Label label6;
-        private TextBox textBox5;
         //private System.Windows.Forms.ComboBox comboBox1;
         //private Button button4;
     }

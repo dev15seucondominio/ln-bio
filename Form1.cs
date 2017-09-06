@@ -237,12 +237,18 @@ namespace WindowsFormsApp1
                 
             string channel = string.Format("portaria_equipamento_biometria_{0}_{1}_{2}", textBox1.Text, textBox2.Text, comboBox1.Text);
             string postData = string.Format("channelName={0}&msg={1}", channel, mensagem);
-            Console.Write(url);
+            System.Diagnostics.Debug.WriteLine("Url");
+            System.Diagnostics.Debug.WriteLine(url);
+            System.Diagnostics.Debug.WriteLine("Channel");
+            System.Diagnostics.Debug.WriteLine(channel);
+            System.Diagnostics.Debug.WriteLine("DATA");
+            System.Diagnostics.Debug.WriteLine(postData);
 
             byte[] _byteVersion = Encoding.ASCII.GetBytes(postData);
 
             request.ContentLength = _byteVersion.Length;
 
+            
             Stream stream = request.GetRequestStream();
             stream.Write(_byteVersion, 0, _byteVersion.Length);
             stream.Close();
@@ -250,16 +256,13 @@ namespace WindowsFormsApp1
 
             using (StreamReader reader = new StreamReader(response.GetResponseStream()))
             {
-                Console.Write(response);
-                Console.WriteLine(reader.ReadToEnd());
-                Console.WriteLine(request);
-                Console.WriteLine(stream);
-                Console.WriteLine(_byteVersion);
-                foreach(var i in _byteVersion)
-                {
-                    Console.Write(i + " ");
-                }
-                Console.WriteLine(_byteVersion.Length);
+                System.Diagnostics.Debug.WriteLine("Resposta");
+                System.Diagnostics.Debug.WriteLine(response);
+                System.Diagnostics.Debug.WriteLine(reader.ReadToEnd());
+                System.Diagnostics.Debug.WriteLine(request);
+                System.Diagnostics.Debug.WriteLine(stream);
+                System.Diagnostics.Debug.WriteLine(_byteVersion);
+               
             }
         }
 
@@ -318,7 +321,7 @@ namespace WindowsFormsApp1
         private void button3_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Enviar Digital");
-            
+            System.Diagnostics.Debug.WriteLine("TTTTTTTTTTTTTTTTTTTTTTestandoTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "Feature files|*.anv";
             DialogResult result;
@@ -332,15 +335,14 @@ namespace WindowsFormsApp1
 
                 string buffer = "";
                 foreach (var u in bbyt) buffer += Convert.ToString(u, 16) + ",";
-
-                Console.Write(buffer);
+                System.Diagnostics.Debug.WriteLine(buffer);
                 string url;
                 string key;
                 switch (this.comboBox1.Text)
                 {
                     case "development":
                         url = this.textBox4.Text;
-                        key = this.textBox5.Text;
+                        key = "sc_dev_channel_key";
                         MyWebRequest(url, buffer, key);
                         break;
                     case "staging":
@@ -389,17 +391,13 @@ namespace WindowsFormsApp1
             switch (this.comboBox1.Text)
             {
                 case "development":
-                    this.label6.Visible = true;
-                    this.textBox5.Visible = true;
                     this.label4.Visible = true;
                     this.textBox4.Visible = true;
-                    this.button1.Location = new System.Drawing.Point(25, 231);
-                    this.button2.Location = new System.Drawing.Point(25, 260);
-                    this.button3.Location = new System.Drawing.Point(25, 289);
+                    this.button1.Location = new System.Drawing.Point(25, 183);
+                    this.button2.Location = new System.Drawing.Point(25, 220);
+                    this.button3.Location = new System.Drawing.Point(25, 262);
                     break;
                 case "staging":
-                    this.label6.Visible = false;
-                    this.textBox5.Visible = false;
                     this.label4.Visible = false;
                     this.textBox4.Visible = false;
                     this.button1.Location = new System.Drawing.Point(25, 143);
@@ -407,8 +405,6 @@ namespace WindowsFormsApp1
                     this.button3.Location = new System.Drawing.Point(26, 222);
                     break;
                 case "production":
-                    this.label6.Visible = false;
-                    this.textBox5.Visible = false;
                     this.label4.Visible = false;
                     this.textBox4.Visible = false;
                     this.button1.Location = new System.Drawing.Point(25, 143);
